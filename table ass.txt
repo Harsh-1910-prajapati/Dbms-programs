@@ -1,0 +1,370 @@
+﻿CREATE TABLE DEPT(
+    DEPTNO NUMBER(2) PRIMARY KEY,
+    DNAME VARCHAR2(14),
+    LOC VARCHAR2(13)
+);
+
+INSERT INTO DEPT VALUES (10,'ACCOUNTING','NEW YORK');
+INSERT INTO DEPT VALUES (20,'RESEARCH','DALLAS');
+INSERT INTO DEPT VALUES (30,'SALES','CHICAGO');
+INSERT INTO DEPT VALUES (40,'OPERATIONS','BOSTON');
+
+CREATE TABLE EMP(
+    EMPNO NUMBER(4) PRIMARY KEY,
+    ENAME VARCHAR2(10),
+    JOB VARCHAR2(9),
+    MGR NUMBER(4),
+    HIREDATE DATE,
+    SAL NUMBER(7,2),
+    COMM NUMBER(7,2),
+    DEPTNO NUMBER(2),
+    FOREIGN KEY (DEPTNO) REFERENCES DEPT(DEPTNO)
+);
+
+INSERT INTO EMP VALUES (7369,'SMITH','CLERK',7902,DATE '1980-12-17',800,NULL,20);
+INSERT INTO EMP VALUES (7499,'ALLEN','SALESMAN',7698,DATE '1981-02-20',1600,300,30);
+INSERT INTO EMP VALUES (7521,'WARD','SALESMAN',7698,DATE '1981-02-22',1250,500,30);
+INSERT INTO EMP VALUES (7566,'JONES','MANAGER',7839,DATE '1981-04-02',2975,NULL,20);
+INSERT INTO EMP VALUES (7654,'MARTIN','SALESMAN',7698,DATE '1981-09-28',1250,1400,30);
+INSERT INTO EMP VALUES (7698,'BLAKE','MANAGER',7839,DATE '1981-05-01',2850,NULL,30);
+INSERT INTO EMP VALUES (7782,'CLARK','MANAGER',7839,DATE '1981-06-09',2450,NULL,10);
+INSERT INTO EMP VALUES (7788,'SCOTT','ANALYST',7566,DATE '1982-12-09',3000,NULL,20);
+INSERT INTO EMP VALUES (7839,'KING','PRESIDENT',NULL,DATE '1981-11-17',5000,NULL,10);
+INSERT INTO EMP VALUES (7844,'TURNER','SALESMAN',7698,DATE '1981-09-08',1500,0,30);
+INSERT INTO EMP VALUES (7876,'ADAMS','CLERK',7788,DATE '1983-01-12',1100,NULL,20);
+INSERT INTO EMP VALUES (7900,'JAMES','CLERK',7698,DATE '1981-12-03',950,NULL,30);
+INSERT INTO EMP VALUES (7902,'FORD','ANALYST',7566,DATE '1981-12-03',3000,NULL,20);
+INSERT INTO EMP VALUES (7934,'MILLER','CLERK',7782,DATE '1982-01-23',1300,NULL,10);
+
+CREATE TABLE CUSTOMER_MST(
+    CUST_NO VARCHAR2(6) PRIMARY KEY CHECK (CUST_NO LIKE 'ANA%' OR CUST_NO LIKE 'VVN%' OR CUST_NO LIKE 'BAK%'),
+    CUST_NAME VARCHAR2(15) NOT NULL,
+    ADDRESS VARCHAR2(20),
+    CITY VARCHAR2(10) CHECK (CITY IN ('ANAND','V V NAGAR','BAKROL'))
+);
+
+INSERT INTO CUSTOMER_MST VALUES('ANA001','ALAN','UNDI SHERI','ANAND');
+INSERT INTO CUSTOMER_MST VALUES('VVN001','SMITH','NANA BAZAR','V V NAGAR');
+INSERT INTO CUSTOMER_MST VALUES('ANA002','BLAKE','TOWN HALL ROAD','ANAND');
+INSERT INTO CUSTOMER_MST VALUES('BAK001','ADAMS','VADTAL ROAD','BAKROL');
+INSERT INTO CUSTOMER_MST VALUES('VVN002','WILLIAMS','MOTA BAZAR','V V NAGAR');
+INSERT INTO CUSTOMER_MST VALUES('ANA003','RODRICKS','TOWN HALL ROAD','ANAND');
+
+CREATE TABLE CUSTOMER_DTL(
+    CUST_NO VARCHAR2(6),
+    BILL_MON VARCHAR2(3),
+    PREV_READ NUMBER(5),
+    CURR_READ NUMBER(5),
+    UNIT_PRICE NUMBER(5,2) CHECK (UNIT_PRICE > 0),
+    DUE_DATE DATE,
+    FOREIGN KEY (CUST_NO) REFERENCES CUSTOMER_MST(CUST_NO)
+);
+
+INSERT INTO CUSTOMER_DTL VALUES('ANA001','NOV',1234,2545,5.50,DATE '2005-12-26');
+INSERT INTO CUSTOMER_DTL VALUES('VVN001','DEC',256,365,5.50,DATE '2006-01-20');
+INSERT INTO CUSTOMER_DTL VALUES('ANA002','NOV',245,578,5.50,DATE '2005-12-26');
+INSERT INTO CUSTOMER_DTL VALUES('BAK001','DEC',45,145,5.50,DATE '2006-01-20');
+INSERT INTO CUSTOMER_DTL VALUES('VVN002','DEC',254,545,5.50,DATE '2006-01-20');
+INSERT INTO CUSTOMER_DTL VALUES('ANA003','NOV',2255,2365,5.50,DATE '2005-12-26');
+
+
+
+
+desc dept;
+ Name                                                  Null?    Type
+ ----------------------------------------------------- -------- ------------------------------------
+ DEPTNO                                                NOT NULL NUMBER(2)
+ DNAME                                                          VARCHAR2(14)
+ LOC                                                            VARCHAR2(13)
+
+SQL> SELECT * FROM DEPT;
+
+    DEPTNO DNAME          LOC
+---------- -------------- -------------
+        10 ACCOUNTING     NEW YORK
+        20 RESEARCH       DALLAS
+        30 SALES          CHICAGO
+        40 OPERATIONS     BOSTON
+
+SQL>
+
+
+ desc emp;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ EMPNO                                     NOT NULL NUMBER(4)
+ ENAME                                              VARCHAR2(10)
+ JOB                                                VARCHAR2(9)
+ MGR                                                NUMBER(4)
+ HIREDATE                                           DATE
+ SAL                                                NUMBER(7,2)
+ COMM                                               NUMBER(7,2)
+ DEPTNO                                             NUMBER(2)
+
+
+
+SQL> SELECT * FROM EMP;
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO
+---------- ---------- --------- ---------- --------- ---------- ---------- ----------
+      7369 SMITH      CLERK           7902 17-DEC-80        800                    20
+      7499 ALLEN      SALESMAN        7698 20-FEB-81       1600        300         30
+      7521 WARD       SALESMAN        7698 22-FEB-81       1250        500         30
+      7566 JONES      MANAGER         7839 02-APR-81       2975                    20
+      7654 MARTIN     SALESMAN        7698 28-SEP-81       1250       1400         30
+      7698 BLAKE      MANAGER         7839 01-MAY-81       2850                    30
+      7782 CLARK      MANAGER         7839 09-JUN-81       2450                    10
+      7788 SCOTT      ANALYST         7566 09-DEC-82       3000                    20
+      7839 KING       PRESIDENT            17-NOV-81       5000                    10
+      7844 TURNER     SALESMAN        7698 08-SEP-81       1500          0         30
+      7876 ADAMS      CLERK           7788 12-JAN-83       1100                    20
+      7900 JAMES      CLERK           7698 03-DEC-81        950                    30
+      7902 FORD       ANALYST         7566 03-DEC-81       3000                    20
+      7934 MILLER     CLERK           7782 23-JAN-82       1300                    10
+
+14 rows selected.
+
+SQL>
+
+
+
+
+desc customer_mst;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ CUST_NO                                   NOT NULL VARCHAR2(6)
+ CUST_NAME                                 NOT NULL VARCHAR2(15)
+ ADDRESS                                            VARCHAR2(20)
+ CITY                                               VARCHAR2(10)
+
+
+SQL> SELECT * FROM CUSTOMER_MST;
+
+CUST_N CUST_NAME       ADDRESS              CITY
+------ --------------- -------------------- ----------
+ANA001 ALAN            UNDI SHERI           ANAND
+VVN001 SMITH           NANA BAZAR           V V NAGAR
+ANA002 BLAKE           TOWN HALL ROAD       ANAND
+BAK001 ADAMS           VADTAL ROAD          BAKROL
+VVN002 WILLIAMS        MOTA BAZAR           V V NAGAR
+ANA003 RODRICKS        TOWN HALL ROAD       ANAND
+
+6 rows selected.
+
+SQL>
+
+
+desc customer_dtl;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ CUST_NO                                            VARCHAR2(6)
+ BILL_MON                                           VARCHAR2(3)
+ PREV_READ                                          NUMBER(5)
+ CURR_READ                                          NUMBER(5)
+ UNIT_PRICE                                         NUMBER(5,2)
+ DUE_DATE                                           DATE
+
+
+SQL> SELECT * FROM CUSTOMER_DTL;
+
+CUST_N BIL  PREV_READ  CURR_READ UNIT_PRICE DUE_DATE
+------ --- ---------- ---------- ---------- ---------
+ANA001 NOV       1234       2545        5.5 26-DEC-05
+VVN001 DEC        256        365        5.5 20-JAN-06
+ANA002 NOV        245        578        5.5 26-DEC-05
+BAK001 DEC         45        145        5.5 20-JAN-06
+VVN002 DEC        254        545        5.5 20-JAN-06
+ANA003 NOV       2255       2365        5.5 26-DEC-05
+
+6 rows selected.
+
+
+
+
+
+
+===========================================================================================================================
+
+
+1. Write a PL/SQL block to print “HELLO MESSAGE”.
+->
+DECLARE
+  msg VARCHAR2(20) := 'HELLO MESSAGE';
+BEGIN
+  DBMS_OUTPUT.PUT_LINE(msg);
+END;
+/
+
+HELLO MESSAGE
+
+
+
+2. Write a PL/SQL block that will take two integer numbers. Print addition,
+subtraction, multiplication, division of the inputted numbers.
+->
+DECLARE
+  a  NUMBER := &first_num;
+  b  NUMBER := &second_num;
+BEGIN
+  DBMS_OUTPUT.PUT_LINE('Addition: ' || (a + b));
+  DBMS_OUTPUT.PUT_LINE('Subtraction: ' || (a - b));
+  DBMS_OUTPUT.PUT_LINE('Multiplication: ' || (a * b));
+  IF b != 0 THEN
+    DBMS_OUTPUT.PUT_LINE('Division: ' || (a / b));
+  ELSE
+    DBMS_OUTPUT.PUT_LINE('Division by zero is not allowed.');
+  END IF;
+END;
+/
+
+Enter value for first_num: 10
+old   2:   a  NUMBER := &first_num;
+new   2:   a  NUMBER := 10;
+Enter value for second_num: 2
+old   3:   b  NUMBER := &second_num;
+new   3:   b  NUMBER := 2;
+Addition: 12
+Subtraction: 8
+Multiplication: 20
+Division: 5
+
+
+3. Write a PL/SQL block to take an input in the form of number and check whether
+the number is EVEN or ODD.
+->
+DECLARE
+  n NUMBER := &input_num;
+BEGIN
+  IF MOD(n, 2) = 0 THEN
+    DBMS_OUTPUT.PUT_LINE(n || ' is EVEN');
+  ELSE
+    DBMS_OUTPUT.PUT_LINE(n || ' is ODD');
+  END IF;
+END;
+/
+
+Enter value for input_num: 5
+old   2:   n NUMBER := &input_num;
+new   2:   n NUMBER := 5;
+5 is ODD
+
+
+4. Write a PL/SQL block to take an input in the form of number and check whether
+the number is positive, negative or zero.
+->
+DECLARE
+  num NUMBER := &input_num;
+BEGIN
+  IF num > 0 THEN
+    DBMS_OUTPUT.PUT_LINE(num || ' is POSITIVE');
+  ELSIF num < 0 THEN
+    DBMS_OUTPUT.PUT_LINE(num || ' is NEGATIVE');
+  ELSE
+    DBMS_OUTPUT.PUT_LINE('Number is ZERO');
+  END IF;
+END;
+/
+
+
+Enter value for input_num: 5
+old   2:   num NUMBER := &input_num;
+new   2:   num NUMBER := 5;
+5 is POSITIVE
+
+
+
+5.Display the values from 1 to 10 using LOOP..END LOOP,
+->
+DECLARE
+  i NUMBER := 1;
+BEGIN
+  LOOP
+    EXIT WHEN i > 10;
+    DBMS_OUTPUT.PUT_LINE(i);
+    i := i + 1;
+  END LOOP;
+END;
+/
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+
+6.Display the values from 1 to 10 Using WHILE..LOOP
+->
+DECLARE
+  i NUMBER := 1;
+BEGIN
+  WHILE i <= 10 LOOP
+    DBMS_OUTPUT.PUT_LINE(i);
+    i := i + 1;
+  END LOOP;
+END;
+/
+
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+
+7.Display the values from 1 to 10 Using FOR LOOP.
+->
+BEGIN
+  FOR i IN 1..10 LOOP
+    DBMS_OUTPUT.PUT_LINE(i);
+  END LOOP;
+END;
+/
+
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+
+8 Display the values from 1 to N using LOOP..END LOOP, WHILE LOOP and FOR LOOP. 
+->
+DECLARE
+  n NUMBER := &N;
+  i NUMBER := 1;
+BEGIN
+  LOOP
+    EXIT WHEN i > n;
+    DBMS_OUTPUT.PUT_LINE(i);
+    i := i + 1;
+  END LOOP;
+END;
+/
+
+
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10

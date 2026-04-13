@@ -1,0 +1,135 @@
+ 
+1.Write a procedure to display the employee name o f particular empno. (supply an 
+empno ) 
+
+->-- 1. Procedure to display employee name of supplied empno
+SET SERVEROUTPUT ON;
+
+CREATE OR REPLACE PROCEDURE get_empname (
+    p_empno IN emp.empno%TYPE
+) AS
+    v_name emp.ename%TYPE;
+BEGIN
+    SELECT ename INTO v_name
+    FROM emp
+    WHERE empno = p_empno;
+
+    DBMS_OUTPUT.PUT_LINE('Employee Name: ' || v_name);
+
+EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+        DBMS_OUTPUT.PUT_LINE('No employee found with Empno: ' || p_empno);
+END;
+/
+----------------------------------------------------------
+-- Calling the procedure
+BEGIN
+    get_empname(7369);   -- supply empno here
+END;
+/
+
+
+
+Employee Name: SMITH
+
+
+2.Write a procedure to display the employee name if the salary > 3500 --for a 
+particular empno. (supply an empno & return employee name) 
+->-- 2. Procedure to return employee name ONLY IF salary > 3500
+SET SERVEROUTPUT ON;
+
+CREATE OR REPLACE PROCEDURE get_empname_if_sal (
+    p_empno IN emp.empno%TYPE,
+    p_name OUT emp.ename%TYPE
+) AS
+    v_sal emp.sal%TYPE;
+BEGIN
+    SELECT ename, sal INTO p_name, v_sal
+    FROM emp
+    WHERE empno = p_empno;
+
+    IF v_sal > 3500 THEN
+        DBMS_OUTPUT.PUT_LINE('Employee Name: ' || p_name);
+    ELSE
+        DBMS_OUTPUT.PUT_LINE('Salary is not greater than 3500');
+        p_name := NULL;
+    END IF;
+
+EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+        DBMS_OUTPUT.PUT_LINE('No employee found with Empno: ' || p_empno);
+        p_name := NULL;
+END;
+/
+----------------------------------------------------------
+-- Calling block
+DECLARE
+    v_empname emp.ename%TYPE;
+BEGIN
+    get_empname_if_sal(7566, v_empname);   -- supply employee number
+END;
+/
+
+
+Employee Name: KING
+
+
+3.Write a procedure that will take department number, if that department is having more 
+than four employees print that department information from the procedure, 
+else print appropriate message from the BLOCK which calls the procedure.
+->-- 3. Procedure to check department size and print details only if >4 employees
+SET SERVEROUTPUT ON;
+
+CREATE OR REPLACE PROCEDURE check_dept_employees (
+    p_deptno IN dept.deptno%TYPE,
+    p_flag OUT NUMBER
+) AS
+    v_count NUMBER;
+    v_dname dept.dname%TYPE;
+    v_loc   dept.loc%TYPE;
+BEGIN
+    -- Count employees in the department
+    SELECT COUNT(*) INTO v_count
+    FROM emp
+    WHERE deptno = p_deptno;
+
+    -- Return count result to calling block
+    p_flag := v_count;
+
+    -- If more than 4 → print dept information
+    IF v_count > 4 THEN
+        SELECT dname, loc INTO v_dname, v_loc
+        FROM dept
+        WHERE deptno = p_deptno;
+
+        DBMS_OUTPUT.PUT_LINE('Department Information');
+        DBMS_OUTPUT.PUT_LINE('----------------------------------');
+        DBMS_OUTPUT.PUT_LINE('Deptno   : ' || p_deptno);
+        DBMS_OUTPUT.PUT_LINE('Dept Name: ' || v_dname);
+        DBMS_OUTPUT.PUT_LINE('Location : ' || v_loc);
+        DBMS_OUTPUT.PUT_LINE('Total Employees: ' || v_count);
+        DBMS_OUTPUT.PUT_LINE('----------------------------------');
+    END IF;
+
+EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+        DBMS_OUTPUT.PUT_LINE('Invalid Department Number');
+        p_flag := 0;
+END;
+/
+----------------------------------------------------------
+-- Calling block
+DECLARE
+    v_flag NUMBER;
+BEGIN
+    check_dept_employees(10, v_flag);  -- supply dept number
+
+    IF v_flag <= 4 THEN
+        DBMS_OUTPUT.PUT_LINE('Department has 4 or fewer employees.');
+    END IF;
+END;
+/
+
+
+
+

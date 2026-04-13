@@ -1,0 +1,44 @@
+1 Display entire content of cust table. 
+➡select * from cust010;
+2 Display customer first name with their area.
+➡ SELECT fname, area FROM cust010;
+
+3 Display customer with their fname and last name whose cust_id is a01 or a02. 
+➡ SELECT fname, iname   FROM cust010 WHERE cust_id IN ('a01', 'a02');
+
+4 Display all the records from cust table whose cust_id is a02 and area is Surat.
+ ➡SELECT *   FROM cust010   WHERE cust_id = 'a02'  AND area = 'Surat';
+
+5 Display customer details who does not have phone number. 
+➡SELECT *  FROM cust010  WHERE phone_no IS NULL;
+
+6 Display entire content of movie table. 
+➡SELECT *  FROM movie010;
+
+7 Display all details of movie whose price is greater than 200. 
+➡SELECT *  FROM movie010;
+
+8 Display title and type of movie whose price is greater than 150 and less than 200. 		
+➡SELECT title, type FROM movie010  WHERE price > 150    AND price < 200;
+
+9 Display movie details whose movie type is Comedy or Action.(Using IN and OR 
+operator) 
+➡ SELECT *   FROM movie010  WHERE type IN ('Comedy', 'Action');
+
+10 Display movie details whose movie type is Suspense and price is greater than 180. 
+➡ SELECT *   FROM movie010   WHERE type = 'Suspense'  AND price > 180;
+
+11 Display title, star and price of comedy movie. 
+➡ SELECT title, star, price  FROM movie010  WHERE type = 'Comedy';
+
+12 Display distinct movies types. 
+➡SELECT DISTINCT type  FROM movie010;
+
+13 Display movies details in ascending order of movie title. 
+➡ SELECT *   FROM movie010  ORDER BY title ASC;
+
+14 Display movies details in descending order of movie price. 
+➡SELECT *  FROM movie010   ORDER BY price DESC;
+
+15 Display movie details whose type is Romantic or Action and price less than 200.
+➡ SELECT *    FROM movie010 WHERE type IN  ('Romantic', 'Action')     AND price < 200;

@@ -1,0 +1,259 @@
+
+ASSIGN-1
+
+create table cust010
+(
+    cust_id varchar2(5),
+    iname varchar2(15),
+    fname varchar2(15),
+    area varchar2(10),
+    phone_no number(10)
+);
+
+insert into cust010 values('a01','Patel','Ajay','Anand',381334 );
+insert into cust010 values('a02','Shah','Anjali','Surat',556037 );
+insert into cust010 values('a03','Thakkar','Vinay','Baroda',372631); 
+insert into cust010 values('a04','Joshi','Kamal','Surat',666612 );
+insert into cust010 values('a05','Pandya','Rohan','Anand', NULL);
+insert into cust010 values('a06','Patel','Kajal','Baroda',512527);
+
+
+
+ select * from cust010;
+
+CUST_ INAME           FNAME           AREA         PHONE_NO
+----- --------------- --------------- ---------- ----------
+a01   Patel           Ajay            Anand          381334
+a02   Shah            Anjali          Surat          556037
+a03   Thakkar         Vinay           Baroda         372631
+a04   Joshi           Kamal           Surat          666612
+a05   Pandya          Rohan           Anand
+a06   Patel           Kajal           Baroda         512527
+
+
+
+
+
+create table movie010
+(
+mv_no number(5),
+title varchar2(25),
+type varchar(10),
+star varchar2(25),
+price number(8,2)
+);
+
+
+insert into movie010 values(1,'Hera Pheri',' Comedy','Paresh Raval',105.00); 
+insert into movie010 values(2,'Kuch Kuch Hota Hein','Romantic','Kajol',225.00);
+insert into movie010 values(3,'Drashyam','Suspense','Ajay Devagan',250.00); 
+insert into movie010 values(4,'Welcome','Comedy','Anil Kapoor',200.00); 
+insert into movie010 values(5,'Gupt','Suspense','Bobby Deol',195.00);
+insert into movie010 values(6,'Tere Naam','Romantic','Salman Khan',190.00); 
+insert into movie010 values(7,'Hungama','Comedy','Akshay Khanna',135.00); 
+insert into movie010 values(8,'Ajanabee','Suspense','Akshay Kumar',165.00); 
+insert into movie010 values(9,'No Entry','Comedy','Anil Kapoor',220.00); 
+insert into movie010 values(10,'Singham','Action','Ajay Devagan',195);
+
+ select * from movie010;
+
+     MV_NO TITLE                     TYPE       STAR                           PRICE
+---------- ------------------------- ---------- ------------------------- ----------
+         1 Hera Pheri                 Comedy    Paresh Raval                     105
+         2 Kuch Kuch Hota Hein       Romantic   Kajol                            225
+         3 Drashyam                  Suspense   Ajay Devagan                     250
+         4 Welcome                   Comedy     Anil Kapoor                      200
+         5 Gupt                      Suspense   Bobby Deol                       195
+         6 Tere Naam                 Romantic   Salman Khan                      190
+         7 Hungama                   Comedy     Akshay Khanna                    135
+         8 Ajanabee                  Suspense   Akshay Kumar                     165
+         9 No Entry                  Comedy     Anil Kapoor                      220
+        10 Singham                   Action     Ajay Devagan                     195
+
+
+
+
+       ASSIGN-2
+
+CREATE TABLE dept010
+(
+deptno number(2) primary key,
+dname varchar2(15),
+loc varchar2(15)
+);
+
+
+insert into dept010 values(10,'Accounting','New York');
+insert into dept010 values(20,'Reseach','Dallas');
+insert into dept010 values(30,'Sales','Chicago');
+insert into dept010 values(40,'Operations','Boston');
+
+select * from dept010;
+
+    DEPTNO DNAME           LOC
+---------- --------------- ---------------
+        10 Accounting      New York
+        20 Reseach         Dallas
+        30 Sales           Chicago
+        40 Operations      Boston
+
+
+CREATE TABLE emp25 (
+    empno NUMBER(4) PRIMARY KEY,
+    ename VARCHAR2(10),
+    job VARCHAR2(10),
+    mgr NUMBER(4),
+    hiredate DATE,
+    sal NUMBER(7,2),
+    comm NUMBER(7,2),
+    deptno NUMBER(2)
+);
+
+INSERT INTO emp25 VALUES (7369, 'Smith', 'Clerk', 7902, '17-DEC-80', 800, NULL, 20);
+INSERT INTO emp25 VALUES (7499, 'Allen', 'Salesman', 7698, '20-FEB-81', 1600, 300, 30);
+INSERT INTO emp25 VALUES (7521, 'Ward', 'Salesman', 7698, '22-FEB-81', 1250, 500, 30);
+INSERT INTO emp25 VALUES (7566, 'Jones', 'Manager', 7839, '02-APR-81', 2975, NULL, 20);
+INSERT INTO emp25 VALUES (7654, 'Martin', 'Salesman', 7698, '28-SEP-81', 1250, 1400, 30);
+INSERT INTO emp25 VALUES (7698, 'Blake', 'Manager', 7839, '01-MAY-81', 2850, NULL, 30);
+INSERT INTO emp25 VALUES (7782, 'Clark', 'Manager', 7839, '09-JUN-81', 2450, NULL, 10);
+INSERT INTO emp25 VALUES (7788, 'Scott', 'Analyst', 7566, '09-DEC-82', 3000, NULL, 20);
+INSERT INTO emp25 VALUES (7839, 'King', 'President', NULL, '17-NOV-81', 5000, NULL, 10);
+INSERT INTO emp25 VALUES (7844, 'Turner', 'Salesman', 7698, '08-SEP-81', 1500, 0, 30);
+INSERT INTO emp25 VALUES (7876, 'Adams', 'Clerk', 7788, '12-JAN-83', 1100, NULL, 20);
+INSERT INTO emp25 VALUES (7900, 'James', 'Clerk', 7698, '03-DEC-81', 950, NULL, 30);
+INSERT INTO emp25 VALUES (7902, 'Ford', 'Analyst', 7566, '03-DEC-81', 3000, NULL, 20);
+INSERT INTO emp25 VALUES (7934, 'Miller', 'Clerk', 7782, '23-JAN-82', 1300, NULL, 10);
+
+
+SQL> select * from emp25;
+
+     EMPNO ENAME      JOB               MGR HIREDATE         SAL       COMM     DEPTNO
+---------- ---------- ---------- ---------- --------- ---------- ---------- ----------
+      7369 Smith      Clerk            7902 17-DEC-80        800                    20
+      7499 Allen      Salesman         7698 20-FEB-81       1600        300         30
+      7521 Ward       Salesman         7698 22-FEB-81       1250        500         30
+      7566 Jones      Manager          7839 02-APR-81       2975                    20
+      7654 Martin     Salesman         7698 28-SEP-81       1250       1400         30
+      7698 Blake      Manager          7839 01-MAY-81       2850                    30
+      7782 Clark      Manager          7839 09-JUN-81       2450                    10
+      7788 Scott      Analyst          7566 09-DEC-82       3000                    20
+      7839 King       President             17-NOV-81       5000                    10
+      7844 Turner     Salesman         7698 08-SEP-81       1500          0         30
+      7876 Adams      Clerk            7788 12-JAN-83       1100                    20
+      7900 James      Clerk            7698 03-DEC-81        950                    30
+      7902 Ford       Analyst          7566 03-DEC-81       3000                    20
+      7934 Miller     Clerk            7782 23-JAN-82       1300                    10
+
+
+
+CREATE TABLE doctor25 (
+    d_id VARCHAR2(3) PRIMARY KEY CHECK (d_id LIKE 'D%'),
+    dname VARCHAR2(25),
+    dcity VARCHAR2(20) CHECK (dcity IN ('Anand', 'Baroda', 'Nadiad')),
+    spec VARCHAR2(20) CHECK (spec IN ('ENT', 'Dental', 'Ortho', 'Eye'))
+);
+
+INSERT INTO doctor25 VALUES ('D01', 'Dharmendra Patel', 'Anand', 'ENT');
+INSERT INTO doctor25 VALUES ('D02', 'Jinay Shah', 'Nadiad', 'Eye');
+INSERT INTO doctor25 VALUES ('D03', 'Sonal Patel', 'Anand', 'Dental');
+INSERT INTO doctor25 VALUES ('D04', 'Mehul Patel', 'Anand', 'ENT');
+INSERT INTO doctor25 VALUES ('D05', 'Mahesh Patel', 'Baroda', 'Ortho');
+INSERT INTO doctor25 VALUES ('D06', 'Neerav Parmar', 'Nadiad', 'Dental');
+INSERT INTO doctor25 VALUES ('D07', 'Niraj Shah', 'Anand', 'Ortho');
+INSERT INTO doctor25 VALUES ('D08', 'Mukesh Kotiya', 'Baroda', 'Eye');
+
+D_I DNAME                     DCITY                SPEC
+--- ------------------------- -------------------- --------------------
+D01 Dharmendra Patel          Anand                ENT
+D02 Jinay Shah                Nadiad               Eye
+D03 Sonal Patel               Anand                Dental
+D04 Mehul Patel               Anand                ENT
+D05 Mahesh Patel              Baroda               Ortho
+D06 Neerav Parmar             Nadiad               Dental
+D07 Niraj Shah                Anand                Ortho
+D08 Mukesh Kotiya             Baroda               Eye
+
+
+CREATE TABLE patient25 (
+    p_id VARCHAR2(3) PRIMARY KEY CHECK (p_id LIKE 'P%'),
+    pname VARCHAR2(25),
+    bdate DATE,
+    paddr VARCHAR2(35),
+    gender CHAR(1) DEFAULT 'M' CHECK (gender IN ('F', 'M'))
+);
+
+
+INSERT INTO patient25 VALUES ('P01', 'Rupal Patel', '12-SEP-98', 'Anand', 'F');
+INSERT INTO patient25 VALUES ('P02', 'Kalpesh Shah', '04-SEP-99', 'Baroda', 'M');
+INSERT INTO patient25 VALUES ('P03', 'Kavita Joshi', '23-OCT-87', 'Surat', 'F');
+INSERT INTO patient25 VALUES ('P04', 'Sachin Pandya', '04-FEB-89', 'Anand', 'M');
+INSERT INTO patient25 VALUES ('P05', 'Brijisha Patel', '15-MAR-95', 'Nadiad', 'F');
+INSERT INTO patient25 VALUES ('P06', 'Mayank Shah', '16-MAY-65', 'Baroda', 'M');
+INSERT INTO patient25 VALUES ('P07', 'Mitul Soni', '27-AUG-96', 'Anand', 'M');
+INSERT INTO patient25 VALUES ('P08', 'Krunal Pandya', '20-JAN-70', 'Rajkot', 'M');
+INSERT INTO patient25 VALUES ('P09', 'Rinkal Bhatt', '14-APR-95', 'Navsari', 'M');
+INSERT INTO patient25 VALUES ('P10', 'Pratik Solanki', '22-JUN-87', 'Surat', 'M');
+
+SQL> select * from patient25;
+
+P_I PNAME                     BDATE     PADDR                               G
+--- ------------------------- --------- ----------------------------------- -
+P01 Rupal Patel               12-SEP-98 Anand                               F
+P02 Kalpesh Shah              04-SEP-99 Baroda                              M
+P03 Kavita Joshi              23-OCT-87 Surat                               F
+P04 Sachin Pandya             04-FEB-89 Anand                               M
+P05 Brijisha Patel            15-MAR-95 Nadiad                              F
+P06 Mayank Shah               16-MAY-65 Baroda                              M
+P07 Mitul Soni                27-AUG-96 Anand                               M
+P08 Krunal Pandya             20-JAN-70 Rajkot                              M
+P09 Rinkal Bhatt              14-APR-95 Navsari                             M
+P10 Pratik Solanki            22-JUN-87 Surat                               M
+
+
+
+CREATE TABLE treatmen (
+    t_id VARCHAR2(3) PRIMARY KEY CHECK (t_id LIKE 'T%'),
+    tdetails VARCHAR2(50),
+    charges NUMBER(5) CHECK (charges > 0)
+);
+
+INSERT INTO treatmen VALUES ('T01', 'Retina', 1200);
+INSERT INTO treatmen VALUES ('T02', 'Root Canal', 400);
+INSERT INTO treatmen VALUES ('T03', 'Sleep Apnea', 600);
+INSERT INTO treatmen VALUES ('T04', 'Glaucoma', 1500);
+INSERT INTO treatmen VALUES ('T05', 'Tonsil', 200);
+INSERT INTO treatmen VALUES ('T06', 'Knee Replacement', 500);
+INSERT INTO treatmen VALUES ('T07', 'Ear Infection', 400);
+INSERT INTO treatmen VALUES ('T08', 'Spine', 600);
+INSERT INTO treatmen VALUES ('T09', 'Tooth Extraction', 1000);
+
+
+
+
+
+CREATE TABLE appointmen (
+    a_id NUMBER(6) PRIMARY KEY,
+    d_id VARCHAR2(3),
+    p_id VARCHAR2(3),
+    t_id VARCHAR2(3),
+    app_date DATE,
+    duration NUMBER(4),
+    status CHAR(1) CHECK (status IN ('C', 'W')),
+    CONSTRAINT fk_doctor25 FOREIGN KEY (d_id) REFERENCES doctor25(d_id),
+    CONSTRAINT fk_patient25 FOREIGN KEY (p_id) REFERENCES patient25(p_id),
+    CONSTRAINT fk_treatmen FOREIGN KEY (t_id) REFERENCES treatmen(t_id)
+);
+
+
+INSERT INTO appointmen VALUES (201801, 'D02', 'P01', 'T01', '01-DEC-18', 20, 'C');
+INSERT INTO appointmen VALUES (201802, 'D03', 'P02', 'T02', '12-OCT-18', 35, 'C');
+INSERT INTO appointmen VALUES (201803, 'D04', 'P03', 'T03', '26-DEC-18', 30, 'W');
+INSERT INTO appointmen VALUES (201804, 'D08', 'P04', 'T04', '01-JAN-18', 25, 'C');
+INSERT INTO appointmen VALUES (201805, 'D01', 'P05', 'T05', '11-SEP-18', 40, 'C');
+INSERT INTO appointmen VALUES (201806, 'D05', 'P06', 'T06', '23-SEP-18', 45, 'C');
+INSERT INTO appointmen VALUES (201807, 'D04', 'P07', 'T07', '16-JAN-18', 55, 'W');
+INSERT INTO appointmen VALUES (201808, 'D07', 'P08', 'T08', '12-NOV-18', 40, 'W');
+INSERT INTO appointmen VALUES (201809, 'D06', 'P09', 'T09', '16-NOV-18', 35, 'C');
+INSERT INTO appointmen VALUES (201810, 'D04', 'P10', 'T03', '03-JUL-18', 30, 'W');
+INSERT INTO appointmen VALUES (201811, 'D01', 'P04', 'T05', '01-DEC-18', 50, 'C');
+INSERT INTO appointmen VALUES (201812, 'D07', 'P07', 'T08', '30-OCT-18', 25, 'W');

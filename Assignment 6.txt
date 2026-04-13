@@ -1,0 +1,123 @@
+1.     Create a trigger to user can not perform insert operation on emp table on Sunday. 
+->---------------------------------------------------------
+-- 1. Trigger: Prevent insert on EMP table on Sunday
+---------------------------------------------------------
+
+CREATE OR REPLACE TRIGGER trg_no_insert_sunday
+BEFORE INSERT ON emp
+BEGIN
+    IF TO_CHAR(SYSDATE, 'DY') = 'SUN' THEN
+        RAISE_APPLICATION_ERROR(-20001, 'Insert NOT allowed on Sunday.');
+    END IF;
+END;
+/
+
+
+2. Create a trigger to user can perform insert operation on emp table where salary more then    
+10000. 
+Create a table with same structure as EMP named EMP1 
+->---------------------------------------------------------
+-- Create EMP1 table (same structure as EMP)
+---------------------------------------------------------
+CREATE TABLE emp1 AS SELECT * FROM emp WHERE 1=0;
+
+---------------------------------------------------------
+-- 2. Trigger: Allow insert only when salary > 10000
+---------------------------------------------------------
+
+CREATE OR REPLACE TRIGGER trg_insert_salary_check
+BEFORE INSERT ON emp
+FOR EACH ROW
+BEGIN
+    IF :NEW.sal <= 10000 THEN
+        RAISE_APPLICATION_ERROR(-20002, 'Salary must be greater than 10000.');
+    END IF;
+END;
+/
+
+
+3. Insert a record in EMP1 table as and when user inserts a record in EMP table. 
+->---------------------------------------------------------
+-- 3. Insert into EMP1 on INSERT in EMP
+---------------------------------------------------------
+
+CREATE OR REPLACE TRIGGER trg_insert_to_emp1
+AFTER INSERT ON emp
+FOR EACH ROW
+BEGIN
+    INSERT INTO emp1
+    VALUES (
+        :NEW.empno,
+        :NEW.ename,
+        :NEW.job,
+        :NEW.mgr,
+        :NEW.hiredate,
+        :NEW.sal,
+        :NEW.comm,
+        :NEW.deptno
+    );
+END;
+/
+
+
+4. Insert record(s) in EMP1 table as and when user updates record(s) of EMP table.]
+->---------------------------------------------------------
+-- 4. Insert record into EMP1 on UPDATE in EMP
+---------------------------------------------------------
+
+CREATE OR REPLACE TRIGGER trg_update_to_emp1
+AFTER UPDATE ON emp
+FOR EACH ROW
+BEGIN
+    INSERT INTO emp1
+    VALUES (
+        :NEW.empno,
+        :NEW.ename,
+        :NEW.job,
+        :NEW.mgr,
+        :NEW.hiredate,
+        :NEW.sal,
+        :NEW.comm,
+        :NEW.deptno
+    );
+END;
+/
+
+
+5. Insert record(s) in EMP1 table when user deletes record(s) from EMP table.
+->---------------------------------------------------------
+-- 5. Insert record into EMP1 on DELETE from EMP
+---------------------------------------------------------
+
+CREATE OR REPLACE TRIGGER trg_delete_to_emp1
+AFTER DELETE ON emp
+FOR EACH ROW
+BEGIN
+    INSERT INTO emp1
+    VALUES (
+        :OLD.empno,
+        :OLD.ename,
+        :OLD.job,
+        :OLD.mgr,
+        :OLD.hiredate,
+        :OLD.sal,
+        :OLD.comm,
+        :OLD.deptno
+    );
+END;
+/
+
+
+
+
+TRIGGER_NAME                   STATUS
+------------------------------ --------
+TRG_NO_INSERT_SUNDAY           ENABLED
+TRG_INSERT_SALARY_CHECK        ENABLED
+TRG_INSERT_TO_EMP1             ENABLED
+TRG_UPDATE_TO_EMP1             ENABLED
+TRG_DELETE_TO_EMP1             ENABLED
+
+
+
+

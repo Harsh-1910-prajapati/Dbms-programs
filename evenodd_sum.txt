@@ -1,0 +1,32 @@
+
+SET SERVEROUTPUT ON;
+
+DECLARE
+    num      NUMBER := &num;         
+    digit    NUMBER;
+    evensum  NUMBER := 0;
+    oddsum   NUMBER := 0;
+BEGIN
+    FOR i IN 1..5 LOOP
+        digit := MOD(num, 10);   -- get last digit
+        num := TRUNC(num / 10);  -- remove last digit
+
+        IF MOD(digit, 2) = 0 THEN
+            DBMS_OUTPUT.PUT_LINE(digit || ' is Even');
+            evensum := evensum + digit;
+        ELSE
+            DBMS_OUTPUT.PUT_LINE(digit || ' is Odd');
+            oddsum := oddsum + digit;
+        END IF;
+    END LOOP;
+
+    DBMS_OUTPUT.PUT_LINE('----------------------------');
+    DBMS_OUTPUT.PUT_LINE('Sum of Even digits = ' || evensum);
+    DBMS_OUTPUT.PUT_LINE('Sum of Odd digits  = ' || oddsum);
+END;
+/
+
+
+
+
+write a pl\sql block to find up fectorial of a number.

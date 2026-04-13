@@ -1,0 +1,126 @@
+1.Create a function to accept deptno and return dname. 
+->-- 1. Function to return department name for a supplied deptno
+SET SERVEROUTPUT ON;
+
+CREATE OR REPLACE FUNCTION get_dname (
+    p_deptno IN dept.deptno%TYPE
+) RETURN dept.dname%TYPE
+AS
+    v_dname dept.dname%TYPE;
+BEGIN
+    SELECT dname INTO v_dname
+    FROM dept
+    WHERE deptno = p_deptno;
+
+    RETURN v_dname;
+
+EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+        RETURN 'Invalid Deptno';
+END;
+/
+-----------------------------------------------------
+-- Calling block
+DECLARE
+    v_name dept.dname%TYPE;
+BEGIN
+    v_name := get_dname(10);     -- Supply deptno
+    DBMS_OUTPUT.PUT_LINE('Department Name: ' || v_name);
+END;
+/
+
+
+
+Department Name: ACCOUNTING
+
+
+
+2.Create a function to check salaries of two employees, and return the max out of 
+two. 
+->-- 2. Function to return MAX salary between 2 employees
+SET SERVEROUTPUT ON;
+
+CREATE OR REPLACE FUNCTION get_max_salary (
+    p_emp1 IN emp.empno%TYPE,
+    p_emp2 IN emp.empno%TYPE
+) RETURN NUMBER
+AS
+    v_sal1 emp.sal%TYPE;
+    v_sal2 emp.sal%TYPE;
+BEGIN
+    SELECT sal INTO v_sal1 FROM emp WHERE empno = p_emp1;
+    SELECT sal INTO v_sal2 FROM emp WHERE empno = p_emp2;
+
+    IF v_sal1 > v_sal2 THEN
+        RETURN v_sal1;
+    ELSE
+        RETURN v_sal2;
+    END IF;
+
+EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+        RETURN NULL;
+END;
+/
+-----------------------------------------------------
+-- Calling block
+DECLARE
+    v_max NUMBER;
+BEGIN
+    v_max := get_max_salary(7369, 7499);   -- supply empno’s
+    DBMS_OUTPUT.PUT_LINE('Maximum Salary: ' || v_max);
+END;
+/
+
+
+
+Maximum Salary: 1600
+
+
+
+
+3.Create a function to accept deptno and return dname if sal >3000. 
+->-- 3. Function to return department name only if salary > 3000 exists
+SET SERVEROUTPUT ON;
+
+CREATE OR REPLACE FUNCTION get_dname_if_sal_gt3000 (
+    p_deptno IN dept.deptno%TYPE
+) RETURN VARCHAR2
+AS
+    v_count NUMBER;
+    v_dname dept.dname%TYPE;
+BEGIN
+    -- Count employees with salary > 3000
+    SELECT COUNT(*) INTO v_count
+    FROM emp
+    WHERE deptno = p_deptno
+      AND sal > 3000;
+
+    IF v_count > 0 THEN
+        SELECT dname INTO v_dname
+        FROM dept
+        WHERE deptno = p_deptno;
+
+        RETURN v_dname;
+    ELSE
+        RETURN 'No employee with salary > 3000';
+    END IF;
+
+EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+        RETURN 'Invalid Department';
+END;
+/
+-----------------------------------------------------
+-- Calling block
+DECLARE
+    v_res VARCHAR2(50);
+BEGIN
+    v_res := get_dname_if_sal_gt3000(10);   -- supply deptno
+    DBMS_OUTPUT.PUT_LINE('Result: ' || v_res);
+END;
+/
+
+
+
+Result: Accountig

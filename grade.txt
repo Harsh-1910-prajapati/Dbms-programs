@@ -1,0 +1,40 @@
+declare
+	a number(5);
+	b number(5);
+	c number(5);
+	d number(5);
+	e number(5);
+	t number(5); 
+	p number(5);
+	
+begin
+	  a:=&a;
+	  b:=&b;
+	  c:=&c;
+	  d:=&d;
+	  e:=&e;
+
+	
+	  t:=a+b+c+d+e;
+	  dbms_output.put_line('Total='||t);
+		p:=(t/500)*100;
+		 dbms_output.put_line('pre='||p);
+		 
+		 if(p>=80)then
+		  dbms_output.put_line('greade A');
+		 
+
+		 elsif(p>=50 and p<=75)then
+		   dbms_output.put_line('greade b');
+		 
+		 elsif(p>=35 and p<=49)then
+		   dbms_output.put_line('greade C');0
+		   
+		   else
+		    dbms_output.put_line('fail');
+		   
+		 end if;
+	
+		 
+end;
+  /

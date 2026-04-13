@@ -1,0 +1,36 @@
+SET SERVEROUTPUT ON;
+
+DECLARE
+    a1 NUMBER := &a1;
+    a2 NUMBER := &a2;
+    a3 NUMBER := &a3;
+    a4 NUMBER := &a4;
+    a5 NUMBER := &a5;
+
+    evensum NUMBER := 0;
+    oddsum NUMBER := 0;
+
+    a NUMBER;
+BEGIN
+    FOR i IN 1..5 LOOP
+        IF i = 1 THEN a := a1;
+        ELSIF i = 2 THEN a := a2;
+        ELSIF i = 3 THEN a := a3;
+        ELSIF i = 4 THEN a := a4;
+        ELSE a := a5;
+        END IF;
+
+        IF MOD(a, 2) = 0 THEN
+            DBMS_OUTPUT.PUT_LINE(a || ' is Even');
+            evensum := evensum + a;
+        ELSE
+            DBMS_OUTPUT.PUT_LINE(a || ' is Odd');
+            oddsum := oddsum + a;
+        END IF;
+    END LOOP;
+
+    DBMS_OUTPUT.PUT_LINE('----------------------------');
+    DBMS_OUTPUT.PUT_LINE('Sum of Even numbers = ' || evensum);
+    DBMS_OUTPUT.PUT_LINE('Sum of Odd numbers  = ' || oddsum);
+END;
+/

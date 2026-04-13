@@ -1,0 +1,11 @@
+DECLARE
+    a NUMBER(5);
+BEGIN
+    a := &a;
+    IF MOD(a, 2) = 0 THEN
+        DBMS_OUTPUT.PUT_LINE('The number is Even');
+    ELSE
+        DBMS_OUTPUT.PUT_LINE('The number is Odd');
+    END IF;
+END;
+/

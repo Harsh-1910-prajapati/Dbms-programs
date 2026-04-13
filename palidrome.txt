@@ -1,0 +1,26 @@
+SET SERVEROUTPUT ON;
+
+DECLARE
+    n        NUMBER := &n;       
+    orig     NUMBER;
+    rev      NUMBER := 0;
+    digit    NUMBER;
+    temp     NUMBER;
+BEGIN
+    
+    temp := ABS(n);
+    orig := temp;
+
+    WHILE temp > 0 LOOP
+        digit := MOD(temp, 10);
+        rev := rev * 10 + digit;
+        temp := TRUNC(temp / 10);
+    END LOOP;
+
+    IF rev = ABS(n) THEN
+        DBMS_OUTPUT.PUT_LINE(n || ' is a Palindrome.');
+    ELSE
+        DBMS_OUTPUT.PUT_LINE(n || ' is NOT a Palindrome.');
+    END IF;
+END;
+/

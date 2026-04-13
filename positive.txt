@@ -1,0 +1,14 @@
+declare
+ a number(5);
+ 
+begin
+ a:= &a;
+ if a > 0 then	
+	dbms_output.put_line('The number is Positive');
+ elsif a < 0 then
+	dbms_output.put_line('The number is Negative');
+ else
+	dbms_output.put_line('The number is Zero');
+end if;
+end;
+/

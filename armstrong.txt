@@ -1,0 +1,23 @@
+SET SERVEROUTPUT ON;
+
+DECLARE
+    n NUMBER := &n;
+    temp NUMBER;
+    digit NUMBER;
+    s NUMBER := 0;
+BEGIN
+    temp := n;
+
+    WHILE temp > 0 LOOP
+        digit := MOD(temp, 10);
+        s := s + POWER(digit, 3);
+        temp := TRUNC(temp / 10);
+    END LOOP;
+
+    IF s = n THEN
+        DBMS_OUTPUT.PUT_LINE(n || ' is an Armstrong number');
+    ELSE
+        DBMS_OUTPUT.PUT_LINE(n || ' is NOT an Armstrong number');
+    END IF;
+END;
+/

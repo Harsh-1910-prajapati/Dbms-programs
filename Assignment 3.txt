@@ -1,0 +1,567 @@
+1. Display empno, name, salary, job and deptno of employees using cursor & %rowtype 
+->-- 1. Cursor with %ROWTYPE
+SET SERVEROUTPUT ON;
+
+DECLARE
+  CURSOR c_emp IS SELECT empno, ename, sal, job, deptno FROM emp;
+  r_emp c_emp%ROWTYPE;
+BEGIN
+  DBMS_OUTPUT.PUT_LINE('EMPNO  ENAME      SALARY     JOB       DEPTNO');
+  DBMS_OUTPUT.PUT_LINE('-----------------------------------------------');
+  OPEN c_emp;
+  LOOP
+    FETCH c_emp INTO r_emp;
+    EXIT WHEN c_emp%NOTFOUND;
+    DBMS_OUTPUT.PUT_LINE(
+      RPAD(r_emp.empno,6) || RPAD(r_emp.ename,10) ||
+      TO_CHAR(r_emp.sal,'99999.99') || '   ' || RPAD(NVL(r_emp.job,'-'),9) ||
+      '   ' || NVL(TO_CHAR(r_emp.deptno),'-')
+    );
+  END LOOP;
+  CLOSE c_emp;
+END;
+
+
+
+
+EMPNO  ENAME      SALARY     JOB       DEPTNO
+-----------------------------------------------
+7369  SMITH        800.00   CLERK       20
+7499  ALLEN       1600.00   SALESMAN    30
+7521  WARD        1250.00   SALESMAN    30
+7566  JONES       2975.00   MANAGER     20
+7654  MARTIN      1250.00   SALESMAN    30
+7698  BLAKE       2850.00   MANAGER     30
+7782  CLARK       2450.00   MANAGER     10
+7788  SCOTT       3000.00   ANALYST     20
+7839  KING        5000.00   PRESIDENT   10
+7844  TURNER      1500.00   SALESMAN    30
+7876  ADAMS       1100.00   CLERK       20
+7900  JAMES        950.00   CLERK       30
+7902  FORD        3000.00   ANALYST     20
+7934  MILLER      1300.00   CLERK       10
+
+
+2. Write a cursor to print empno,name,job,salary and deptno  whose deptno is 10. (using %type)  
+->-- 2. Cursor using %TYPE and deptno = 10
+SET SERVEROUTPUT ON;
+
+DECLARE
+  v_deptno emp.deptno%TYPE := 10;
+  CURSOR c_dept10 IS
+    SELECT empno, ename, job, sal, deptno FROM emp WHERE deptno = v_deptno;
+  v_empno  emp.empno%TYPE;
+  v_ename  emp.ename%TYPE;
+  v_job    emp.job%TYPE;
+  v_sal    emp.sal%TYPE;
+  v_dno    emp.deptno%TYPE;
+BEGIN
+  DBMS_OUTPUT.PUT_LINE('EMPNO  ENAME      JOB       SALARY');
+  DBMS_OUTPUT.PUT_LINE('--------------------------------');
+  OPEN c_dept10;
+  LOOP
+    FETCH c_dept10 INTO v_empno, v_ename, v_job, v_sal, v_dno;
+    EXIT WHEN c_dept10%NOTFOUND;
+    DBMS_OUTPUT.PUT_LINE(RPAD(v_empno,6) || RPAD(v_ename,10) || RPAD(NVL(v_job,'-'),10) || TO_CHAR(v_sal,'99999.99'));
+  END LOOP;
+  CLOSE c_dept10;
+END;
+/
+
+EMPNO  ENAME      JOB       SALARY
+--------------------------------
+7782  CLARK     MANAGER     2450.00
+7839  KING      PRESIDENT   5000.00
+7934  MILLER    CLERK       1300.00
+ 
+3 Write a cursor to print empno,ename and sal from emp table whose ename start with 'A'. 
+->-- 3. ename starts with 'A'
+SET SERVEROUTPUT ON;
+
+DECLARE
+  CURSOR c_a IS
+    SELECT empno, ename, sal FROM emp WHERE ename LIKE 'A%';
+  r_emp c_a%ROWTYPE;
+BEGIN
+  DBMS_OUTPUT.PUT_LINE('EMPNO  ENAME      SALARY');
+  DBMS_OUTPUT.PUT_LINE('------------------------');
+  FOR r_emp IN c_a LOOP
+    DBMS_OUTPUT.PUT_LINE(RPAD(r_emp.empno,6) || RPAD(r_emp.ename,10) || TO_CHAR(r_emp.sal,'99999.99'));
+  END LOOP;
+END;
+/
+
+
+EMPNO  ENAME      SALARY
+------------------------
+7499  ALLEN       1600.00
+7876  ADAMS       1100.00
+
+
+4 Write a cursor to print empno,ename,hiredate and salary whose hired in the year 1981. 
+->-- 4. Hired in year 1981
+SET SERVEROUTPUT ON;
+
+DECLARE
+  CURSOR c_1981 IS
+    SELECT empno, ename, hiredate, sal FROM emp
+    WHERE TO_CHAR(hiredate,'YYYY') = '1981';
+  r_emp c_1981%ROWTYPE;
+BEGIN
+  DBMS_OUTPUT.PUT_LINE('EMPNO  ENAME      HIREDATE    SALARY');
+  DBMS_OUTPUT.PUT_LINE('-------------------------------------');
+  OPEN c_1981;
+  LOOP
+    FETCH c_1981 INTO r_emp;
+    EXIT WHEN c_1981%NOTFOUND;
+    DBMS_OUTPUT.PUT_LINE(
+      RPAD(r_emp.empno,6) || RPAD(r_emp.ename,10) ||
+      ' ' || TO_CHAR(r_emp.hiredate,'DD-MON-YYYY') || '  ' || TO_CHAR(r_emp.sal,'99999.99')
+    );
+  END LOOP;
+  CLOSE c_1981;
+END;
+/
+
+
+EMPNO  ENAME      HIREDATE    SALARY
+-------------------------------------
+7499  ALLEN      20-FEB-1981    1600.00
+7521  WARD       22-FEB-1981    1250.00
+7566  JONES      02-APR-1981    2975.00
+7654  MARTIN     28-SEP-1981    1250.00
+7698  BLAKE      01-MAY-1981    2850.00
+7782  CLARK      09-JUN-1981    2450.00
+7839  KING       17-NOV-1981    5000.00
+7844  TURNER     08-SEP-1981    1500.00
+7900  JAMES      03-DEC-1981     950.00
+7902  FORD       03-DEC-1981    3000.00
+
+
+5 Write a cursor to print information of dept table in following format.   
+                Department Information 
+======================================================= 
+     Deptno          deptname    location 
+======================================================= 
+ 10  Accountiong   
+ 20  Sales 
+ 30 
+======================================================== 
+ ->-- 5. Department Information
+SET SERVEROUTPUT ON;
+
+DECLARE
+  CURSOR c_dept IS SELECT deptno, dname, loc FROM dept ORDER BY deptno;
+  r_dept c_dept%ROWTYPE;
+BEGIN
+  DBMS_OUTPUT.PUT_LINE('                Department Information');
+  DBMS_OUTPUT.PUT_LINE('=======================================================');
+  DBMS_OUTPUT.PUT_LINE(RPAD('Deptno',8) || RPAD('DeptName',15) || 'Location');
+  DBMS_OUTPUT.PUT_LINE('=======================================================');
+  OPEN c_dept;
+  LOOP
+    FETCH c_dept INTO r_dept;
+    EXIT WHEN c_dept%NOTFOUND;
+    DBMS_OUTPUT.PUT_LINE(RPAD(r_dept.deptno,8) || RPAD(r_dept.dname,15) || NVL(r_dept.loc,'-'));
+  END LOOP;
+  DBMS_OUTPUT.PUT_LINE('=======================================================');
+  CLOSE c_dept;
+END;
+/
+
+=======================================================
+Deptno  DeptName       Location
+=======================================================
+10      ACCOUNTING     NEW YORK
+20      RESEARCH       DALLAS
+30      SALES          CHICAGO
+40      OPERATIONS     BOSTON
+=======================================================
+
+ 
+6 Write a cursor to print information of EMP AND DEPT table in following format.   
+                Employee Information 
+============================================= =============== 
+     Empno                 Ename            Deptno          Deptname
+ ======================================================= 
+ ----- 
+             ------ 
+==========================================  ================ 
+ 
+->-- 6. Employee Information (EMP join DEPT)
+SET SERVEROUTPUT ON;
+
+DECLARE
+  CURSOR c_emp_dept IS
+    SELECT e.empno, e.ename, e.job, e.sal, e.deptno, d.dname
+    FROM emp e LEFT JOIN dept d ON e.deptno = d.deptno
+    ORDER BY e.empno;
+  r_row c_emp_dept%ROWTYPE;
+BEGIN
+  DBMS_OUTPUT.PUT_LINE('                Employee Information');
+  DBMS_OUTPUT.PUT_LINE('=============================================================');
+  DBMS_OUTPUT.PUT_LINE(RPAD('Empno',7) || RPAD('Ename',12) || RPAD('Job',10) || RPAD('Deptno',8) || 'DeptName');
+  DBMS_OUTPUT.PUT_LINE('=============================================================');
+  OPEN c_emp_dept;
+  LOOP
+    FETCH c_emp_dept INTO r_row;
+    EXIT WHEN c_emp_dept%NOTFOUND;
+    DBMS_OUTPUT.PUT_LINE(
+      RPAD(r_row.empno,7) || RPAD(r_row.ename,12) || RPAD(NVL(r_row.job,'-'),10) ||
+      RPAD(NVL(TO_CHAR(r_row.deptno),'-'),8) || NVL(r_row.dname,'-')
+    );
+  END LOOP;
+  DBMS_OUTPUT.PUT_LINE('=============================================================');
+  CLOSE c_emp_dept;
+END;
+/
+
+Employee Information
+=============================================================
+Empno  Ename       Job       Deptno  DeptName
+=============================================================
+7369   SMITH       CLERK     20      RESEARCH
+7499   ALLEN       SALESMAN  30      SALES
+7521   WARD        SALESMAN  30      SALES
+7566   JONES       MANAGER   20      RESEARCH
+7654   MARTIN      SALESMAN  30      SALES
+7698   BLAKE       MANAGER   30      SALES
+7782   CLARK       MANAGER   10      ACCOUNTING
+7788   SCOTT       ANALYST   20      RESEARCH
+7839   KING        PRESIDENT 10      ACCOUNTING
+7844   TURNER      SALESMAN  30      SALES
+7876   ADAMS       CLERK     20      RESEARCH
+7900   JAMES       CLERK     30      SALES
+7902   FORD        ANALYST   20      RESEARCH
+7934   MILLER      CLERK     10      ACCOUNTING
+=============================================================
+
+
+7  Write a cursor to print information of dept table in following format. 
+   Department Information 
+================================================ 
+    Deptno  deptname   location 
+=============================================== 
+ 10  Accountiong   
+ 20  Sales 
+ ----------------------------------------      
+============================================== 
+ Total Records: 4 
+ 
+ ->-- 7. Dept info with Total Records
+SET SERVEROUTPUT ON;
+
+DECLARE
+  CURSOR c_dept IS SELECT deptno, dname, loc FROM dept ORDER BY deptno;
+  r_dept c_dept%ROWTYPE;
+  v_count NUMBER := 0;
+BEGIN
+  DBMS_OUTPUT.PUT_LINE('   Department Information');
+  DBMS_OUTPUT.PUT_LINE('===============================================');
+  DBMS_OUTPUT.PUT_LINE(RPAD('Deptno',8) || RPAD('DeptName',15) || 'Location');
+  DBMS_OUTPUT.PUT_LINE('===============================================');
+  OPEN c_dept;
+  LOOP
+    FETCH c_dept INTO r_dept;
+    EXIT WHEN c_dept%NOTFOUND;
+    v_count := v_count + 1;
+    DBMS_OUTPUT.PUT_LINE(RPAD(r_dept.deptno,8) || RPAD(r_dept.dname,15) || NVL(r_dept.loc,'-'));
+  END LOOP;
+  CLOSE c_dept;
+  DBMS_OUTPUT.PUT_LINE('-----------------------------------------------');
+  DBMS_OUTPUT.PUT_LINE('Total Records: ' || v_count);
+  DBMS_OUTPUT.PUT_LINE('===============================================');
+END;
+/
+
+
+
+Department Information
+===============================================
+Deptno  DeptName       Location
+===============================================
+10      ACCOUNTING     NEW YORK
+20      RESEARCH       DALLAS
+30      SALES          CHICAGO
+40      OPERATIONS     BOSTON
+-----------------------------------------------
+Total Records: 4
+===============================================
+
+ 
+8 Write a cursor to print empno,ename and salary in following format. 
+                               
+                                    Employee Information ------------------------------------------------------------------------------- 
+    Empno                    Ename                 Salary             Annual Salary --------------------------------------------------------------------------------- 
+     7369 
+     7455  
+            --- ------------------------------------------------------------------------------------- 
+ 
+ ->-- 8. Employee info with Annual Salary
+SET SERVEROUTPUT ON;
+
+DECLARE
+  CURSOR c_emp IS SELECT empno, ename, sal FROM emp ORDER BY empno;
+  r_emp c_emp%ROWTYPE;
+BEGIN
+  DBMS_OUTPUT.PUT_LINE('                         Employee Information');
+  DBMS_OUTPUT.PUT_LINE('---------------------------------------------------------------');
+  DBMS_OUTPUT.PUT_LINE(RPAD('Empno',7) || RPAD('Ename',12) || RPAD('Salary',12) || 'Annual Salary');
+  DBMS_OUTPUT.PUT_LINE('---------------------------------------------------------------');
+  OPEN c_emp;
+  LOOP
+    FETCH c_emp INTO r_emp;
+    EXIT WHEN c_emp%NOTFOUND;
+    DBMS_OUTPUT.PUT_LINE(
+      RPAD(r_emp.empno,7) || RPAD(r_emp.ename,12) ||
+      RPAD(TO_CHAR(r_emp.sal,'99999.99'),12) ||
+      TO_CHAR((NVL(r_emp.sal,0) * 12),'999999.99')
+    );
+  END LOOP;
+  DBMS_OUTPUT.PUT_LINE('---------------------------------------------------------------');
+  CLOSE c_emp;
+END;
+/
+
+Employee Information
+---------------------------------------------------------------
+Empno  Ename       Salary      Annual Salary
+---------------------------------------------------------------
+7369   SMITH          800.00      9600.00
+7499   ALLEN         1600.00     19200.00
+7521   WARD          1250.00     15000.00
+7566   JONES         2975.00     35700.00
+7654   MARTIN        1250.00     15000.00
+7698   BLAKE         2850.00     34200.00
+7782   CLARK         2450.00     29400.00
+7788   SCOTT         3000.00     36000.00
+7839   KING          5000.00     60000.00
+7844   TURNER        1500.00     18000.00
+7876   ADAMS         1100.00     13200.00
+7900   JAMES          950.00     11400.00
+7902   FORD          3000.00     36000.00
+7934   MILLER        1300.00     15600.00
+---------------------------------------------------------------
+ 
+9  Write a cursor to print empno,ename and salary in following format. 
+                               
+                                    Employee Information ----------------------------------------------------------- 
+    Empno                    Ename                 Salary ---------------------------------------------------------- 
+     7369 
+     7455  
+            --- ---------------------------------------------------------- 
+                                        Total Salary:=  
+										
+->-- 9. Employee info with Total Salary
+SET SERVEROUTPUT ON;
+
+DECLARE
+  CURSOR c_emp IS SELECT empno, ename, sal FROM emp ORDER BY empno;
+  r_emp c_emp%ROWTYPE;
+  v_total_sal NUMBER := 0;
+BEGIN
+  DBMS_OUTPUT.PUT_LINE('                         Employee Information');
+  DBMS_OUTPUT.PUT_LINE('--------------------------------------------------');
+  DBMS_OUTPUT.PUT_LINE(RPAD('Empno',7) || RPAD('Ename',12) || 'Salary');
+  DBMS_OUTPUT.PUT_LINE('--------------------------------------------------');
+  OPEN c_emp;
+  LOOP
+    FETCH c_emp INTO r_emp;
+    EXIT WHEN c_emp%NOTFOUND;
+    v_total_sal := v_total_sal + NVL(r_emp.sal,0);
+    DBMS_OUTPUT.PUT_LINE(RPAD(r_emp.empno,7) || RPAD(r_emp.ename,12) || TO_CHAR(r_emp.sal,'99999.99'));
+  END LOOP;
+  CLOSE c_emp;
+  DBMS_OUTPUT.PUT_LINE('--------------------------------------------------');
+  DBMS_OUTPUT.PUT_LINE('Total Salary:= ' || TO_CHAR(v_total_sal,'999999.99'));
+  DBMS_OUTPUT.PUT_LINE('--------------------------------------------------');
+END;
+/
+
+Employee Information
+--------------------------------------------------
+Empno  Ename       Salary
+--------------------------------------------------
+7369   SMITH          800.00
+7499   ALLEN         1600.00
+7521   WARD          1250.00
+7566   JONES         2975.00
+7654   MARTIN        1250.00
+7698   BLAKE         2850.00
+7782   CLARK         2450.00
+7788   SCOTT         3000.00
+7839   KING          5000.00
+7844   TURNER        1500.00
+7876   ADAMS         1100.00
+7900   JAMES          950.00
+7902   FORD          3000.00
+7934   MILLER        1300.00
+--------------------------------------------------
+Total Salary:=   29025.00
+--------------------------------------------------
+
+
+10 Write a cursor to display the Electricity consumption report in following format. 
+Electricity consumption 
+  
+Customer No Name Consumption City 
+. . . . . . . 
+. . . . . . . 
+  
+                                      Total Consumption: ----------- 
+
+->-- 10. Electricity Consumption report
+SET SERVEROUTPUT ON;
+
+DECLARE
+  CURSOR c_cons IS
+    SELECT m.cust_no, m.cust_name, d.curr_read - d.prev_read AS consumption, m.city
+    FROM customer_mst m JOIN customer_dtl d ON m.cust_no = d.cust_no
+    ORDER BY m.cust_no;
+  r_cons c_cons%ROWTYPE;
+  v_total_consumption NUMBER := 0;
+BEGIN
+  DBMS_OUTPUT.PUT_LINE('Electricity consumption');
+  DBMS_OUTPUT.PUT_LINE('CustomerNo  Name         Consumption  City');
+  DBMS_OUTPUT.PUT_LINE('----------------------------------------------');
+  OPEN c_cons;
+  LOOP
+    FETCH c_cons INTO r_cons;
+    EXIT WHEN c_cons%NOTFOUND;
+    v_total_consumption := v_total_consumption + NVL(r_cons.consumption,0);
+    DBMS_OUTPUT.PUT_LINE(RPAD(r_cons.cust_no,10) || RPAD(r_cons.cust_name,12) || LPAD(TO_CHAR(r_cons.consumption),12) || '   ' || r_cons.city);
+  END LOOP;
+  CLOSE c_cons;
+  DBMS_OUTPUT.PUT_LINE('----------------------------------------------');
+  DBMS_OUTPUT.PUT_LINE('Total Consumption: ' || TO_CHAR(v_total_consumption));
+END;
+/
+
+Electricity consumption
+CustomerNo  Name         Consumption  City
+----------------------------------------------
+ANA001    ALAN                1311   ANAND
+ANA002    BLAKE                333   ANAND
+ANA003    RODRICKS             110   ANAND
+BAK001    ADAMS                100   BAKROL
+VVN001    SMITH                109   V V NAGAR
+VVN002    WILLIAMS             291   V V NAGAR
+----------------------------------------------
+Total Consumption: 2254
+
+
+11 Write a cursor to print electricity Bill Report in following format. 
+Electricity Bill 
+  
+                                                   Readings 
+CustomerNo. Name     Previous    Current    Consumption     Unit Price      Total Bill 
+  
+*                **          ** ** ** ** *** ----------------------------------------------------------------------------------------------------------- 
+
+->-- 11. Electricity Bill Report (per customer)
+SET SERVEROUTPUT ON;
+
+DECLARE
+  CURSOR c_bill IS
+    SELECT m.cust_no, m.cust_name, d.prev_read, d.curr_read,
+           (d.curr_read - d.prev_read) AS consumption, d.unit_price,
+           (d.curr_read - d.prev_read) * d.unit_price AS total_bill
+    FROM customer_mst m JOIN customer_dtl d ON m.cust_no = d.cust_no
+    ORDER BY m.cust_no;
+  r c_bill%ROWTYPE;
+BEGIN
+  DBMS_OUTPUT.PUT_LINE('Electricity Bill');
+  DBMS_OUTPUT.PUT_LINE('-------------------------------------------------------------------------------');
+  DBMS_OUTPUT.PUT_LINE(RPAD('CustomerNo',12) || RPAD('Name',15) || RPAD('Previous',10) || RPAD('Current',10) || RPAD('Consumption',13) || RPAD('Unit Price',12) || 'Total Bill');
+  DBMS_OUTPUT.PUT_LINE('-------------------------------------------------------------------------------');
+  OPEN c_bill;
+  LOOP
+    FETCH c_bill INTO r;
+    EXIT WHEN c_bill%NOTFOUND;
+    DBMS_OUTPUT.PUT_LINE(
+      RPAD(r.cust_no,12) || RPAD(r.cust_name,15) ||
+      RPAD(TO_CHAR(r.prev_read),10) || RPAD(TO_CHAR(r.curr_read),10) ||
+      RPAD(TO_CHAR(r.consumption),13) || RPAD(TO_CHAR(r.unit_price,'9999.99'),12) ||
+      TO_CHAR(NVL(r.total_bill,0),'99999.99')
+    );
+  END LOOP;
+  CLOSE c_bill;
+  DBMS_OUTPUT.PUT_LINE('-------------------------------------------------------------------------------');
+END;
+/
+
+Electricity Bill
+-------------------------------------------------------------------------------
+CustomerNo  Name           Previous  Current   Consumption  Unit Price  Total Bill
+-------------------------------------------------------------------------------
+ANA001      ALAN           1234      2545      1311             5.50      7210.50
+ANA002      BLAKE          245       578       333              5.50      1831.50
+ANA003      RODRICKS       2255      2365      110              5.50       605.00
+BAK001      ADAMS          45        145       100              5.50       550.00
+VVN001      SMITH          256       365       109              5.50       599.50
+VVN002      WILLIAMS       254       545       291              5.50      1600.50
+-------------------------------------------------------------------------------
+
+12 Write a cursor to print electricity Bill Report in following format. 
+Electricity Bill 
+  
+                                                  Readings 
+CustomerNo.    Name    Previous    Current    Consumption      Unit Price     Total Bill 
+  
+*                 **          ** ** ** ** *** 
+*                 **          ** ** ** ** *** -------------------------------------------------------------------------------------------------------------------- 
+                                                             Total:               ______                                      _____
+
+->-- 12. Electricity Bill Report (with totals)
+SET SERVEROUTPUT ON;
+
+DECLARE
+  CURSOR c_bill IS
+    SELECT m.cust_no, m.cust_name, d.prev_read, d.curr_read,
+           (d.curr_read - d.prev_read) AS consumption, d.unit_price,
+           (d.curr_read - d.prev_read) * d.unit_price AS total_bill
+    FROM customer_mst m JOIN customer_dtl d ON m.cust_no = d.cust_no
+    ORDER BY m.cust_no;
+  r c_bill%ROWTYPE;
+  v_total_consumption NUMBER := 0;
+  v_total_bill NUMBER := 0;
+BEGIN
+  DBMS_OUTPUT.PUT_LINE('Electricity Bill');
+  DBMS_OUTPUT.PUT_LINE('----------------------------------------------------------------------------------------------------');
+  DBMS_OUTPUT.PUT_LINE(RPAD('CustomerNo',12) || RPAD('Name',15) || RPAD('Previous',10) || RPAD('Current',10) || RPAD('Consumption',13) || RPAD('Unit Price',12) || 'Total Bill');
+  DBMS_OUTPUT.PUT_LINE('----------------------------------------------------------------------------------------------------');
+  OPEN c_bill;
+  LOOP
+    FETCH c_bill INTO r;
+    EXIT WHEN c_bill%NOTFOUND;
+    v_total_consumption := v_total_consumption + NVL(r.consumption,0);
+    v_total_bill := v_total_bill + NVL(r.total_bill,0);
+    DBMS_OUTPUT.PUT_LINE(
+      RPAD(r.cust_no,12) || RPAD(r.cust_name,15) ||
+      RPAD(TO_CHAR(r.prev_read),10) || RPAD(TO_CHAR(r.curr_read),10) ||
+      RPAD(TO_CHAR(r.consumption),13) || RPAD(TO_CHAR(r.unit_price,'9999.99'),12) ||
+      TO_CHAR(NVL(r.total_bill,0),'99999.99')
+    );
+  END LOOP;
+  CLOSE c_bill;
+  DBMS_OUTPUT.PUT_LINE('----------------------------------------------------------------------------------------------------');
+  DBMS_OUTPUT.PUT_LINE(RPAD('Total:', 70) || LPAD(TO_CHAR(v_total_consumption),12) || '   ' || TO_CHAR(v_total_bill,'999999.99'));
+  DBMS_OUTPUT.PUT_LINE('----------------------------------------------------------------------------------------------------');
+END;
+/
+
+
+
+Electricity Bill
+----------------------------------------------------------------------------------------------------
+CustomerNo  Name           Previous  Current   Consumption  Unit Price  Total Bill
+----------------------------------------------------------------------------------------------------
+ANA001      ALAN           1234      2545      1311             5.50      7210.50
+ANA002      BLAKE          245       578       333              5.50      1831.50
+ANA003      RODRICKS       2255      2365      110              5.50       605.00
+BAK001      ADAMS          45        145       100              5.50       550.00
+VVN001      SMITH          256       365       109              5.50       599.50
+VVN002      WILLIAMS       254       545       291              5.50      1600.50
+----------------------------------------------------------------------------------------------------
+Total:                                                                        2254     12397.00
+----------------------------------------------------------------------------------------------------

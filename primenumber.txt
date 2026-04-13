@@ -1,0 +1,25 @@
+DECLARE
+    n       NUMBER := &enter_number;   -- user input
+    is_prime BOOLEAN := TRUE;
+BEGIN
+   
+    IF n <= 1 THEN
+        is_prime := FALSE;
+    ELSE
+
+        FOR i IN 2..TRUNC(n/2) LOOP
+            IF MOD(n, i) = 0 THEN
+                is_prime := FALSE;
+                EXIT;
+            END IF;
+        END LOOP;
+    END IF;
+
+    
+    IF is_prime THEN
+        DBMS_OUTPUT.PUT_LINE(n || ' is a PRIME number.');
+    ELSE
+        DBMS_OUTPUT.PUT_LINE(n || ' is NOT a PRIME number.');
+    END IF;
+END;
+/
