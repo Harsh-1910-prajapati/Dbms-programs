@@ -4,21 +4,7 @@ A collection of **Database Management System (DBMS)** programs and SQL queries c
 
 ---
 
-## 📁 Repository Structure
 
-```
-Dbms-programs/
-├── DDL/                   # Data Definition Language (CREATE, ALTER, DROP)
-├── DML/                   # Data Manipulation Language (INSERT, UPDATE, DELETE)
-├── DQL/                   # Data Query Language (SELECT, JOINs, Subqueries)
-├── DCL/                   # Data Control Language (GRANT, REVOKE)
-├── TCL/                   # Transaction Control Language (COMMIT, ROLLBACK)
-├── PL-SQL/                # PL/SQL Blocks, Procedures, Functions
-├── Triggers/              # Database Triggers
-├── Cursors/               # Explicit & Implicit Cursors
-├── Joins/                 # All types of SQL JOINs
-└── README.md
-```
 
 ---
 
