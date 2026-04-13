@@ -1,0 +1,16 @@
+create table cust1 
+(
+cust_id varchar2(5)primary key,
+lname varchar2(15),
+fname varchar2(15),
+area varchar2(10),
+phone_no number(10)
+);
+
+
+insert into cust1 values('a01', 'Patel', 'Ajay', 'Anand',381334);
+insert into cust1 values('a02', 'Shah','Anjali', 'Surat',556037);
+insert into cust1 values('a03', 'Thakkar', 'Vinay', 'Baroda',372631);
+insert into cust1 values('a04', 'Joshi', 'Kamal', 'Surat',666612);
+insert into cust1 values('a05', 'Pandya', 'Rohan', 'Anand',null);
+insert into cust1 values('a06', 'Patel', 'Kajal', 'Baroda',512527);

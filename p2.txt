@@ -1,0 +1,20 @@
+create table movie2
+(
+mv_no number(5)primary key,
+Title varchar2(25),
+Type varchar(10),
+Star varchar(25),
+Price number(8,2)
+);
+insert into movie2 values(1,'Hara pheir','Comedy','paresh Raval',105);
+insert into movie2 values(2,'Kuch Kuch Hote Hein','Romantic','Kajol',225.00);
+insert into movie2 values(3,'Drashyam','Suspense','Ajay Devagan',250);
+insert into movie2 values(4,'Welcome','Comedy','Anil Kapoor',200.00);
+insert into movie2 values(5,'Gupt','Suspense','Bobby Deol',195);
+insert into movie2 values(6,'Tere Naam','Romantic','Salman Khan',190);
+insert into movie2 values(7,'Hungama','Comedy','Akshay Khanna',135);
+insert into movie2 values(8,'Ajanabee','Suspense','Akshay Kumar',165);
+insert into movie2 values(9,'No Entry','Comedy','Anil Kapoor',220);
+insert into movie2 values(10,'Singham','Action','Ajay Devagan',195);
+
+

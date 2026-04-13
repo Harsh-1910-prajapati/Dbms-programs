@@ -1,0 +1,11 @@
+create table appointment2
+(
+A_id Number(6)primary key,
+d_id varchar2(3),
+P_id varchar2(3),
+T_id varchar2(3),
+App_date date,
+Duration Number(4),
+Status char(1)
+);
+insert into appointment2 values(&A_id,'&d_id','&P_id','&T_id','&App_date',&Duration,'&Status');

@@ -1,0 +1,15 @@
+create table  doctor2
+(
+d_id varchar2(3)primary key check(d_id like '%D__'),
+dname varchar2(25),
+Dcity varchar2(20)check(Dcity in('Anand','Baroda','Nadiad')),
+spec varchar2(20)check(spec in('ENT','Dental','ortho','Eye'))
+);
+insert into doctor2 values('D01','Dhamendra Patel','Anand','ENT');
+insert into doctor2 values('D02','jinay Shah','Nadiad','Eye');
+insert into doctor2 values('D03','Sonal Patel','Anand','Dental');
+insert into doctor2 values('D04','Mehul Patel','Anand','ENT');
+insert into doctor2 values('D05','Mahesh Patel','Baroda','ortho');
+insert into doctor2 values('D06','Neerav Parmar','Nadiad','Dental');
+insert into doctor2 values('D07','Niraj Shah','Anand','ortho');
+insert into doctor2 values('D08','Mukesh KOtiya','Baroda','Eye');

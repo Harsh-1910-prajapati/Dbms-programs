@@ -1,0 +1,17 @@
+create table treatment2
+(
+T_id varchar2(3)primary key check(T_id like '%T__'),
+Tdetails varchar2(50),
+charges Number(5) check(charges>0)
+);
+
+
+insert into treatment2 values('T01','Retina',1200);
+insert into treatment2 values('T02','Root Canal',400);
+insert into treatment2 values('T03','Sleep Apnea',600);
+insert into treatment2 values('T04','Glaucoma',1500);
+insert into treatment2 values('T05','Tonsil',200);
+insert into treatment2 values('T06','Knee Replacement',500);
+insert into treatment2 values('T07','Ear lnfection',400);
+insert into treatment2 values('T08','Spine'600);
+insert into treatment2 values('T09','Tooth Extraction',1000);

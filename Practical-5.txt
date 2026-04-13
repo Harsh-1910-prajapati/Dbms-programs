@@ -1,0 +1,35 @@
+create table patient2
+(
+ P_id varchar2(3)primary key,
+ Pname varchar2(25),
+ Bdate date,
+ Paddr varchar2(35),
+ Gender char(1) 
+);
+
+
+
+insert into patient values('P01','Rupal Patel','12-SEP-98','Anand','F');
+insert into patient values('P02','Kalpesh Shah','04-SEP-99','Baroda','M');
+insert into patient values('P03','Kavita Joshi','23-OCT-87','Surat','F');
+insert into patient values('P04','Sachin Pandya','04-FEB-89','Anand','M');
+insert into patient values('P05','Brijisha Patel','15-MAR-95','Nadiad','F');
+insert into patient values('P06','Mayank Shah','16-MAY-65','Baroda','M');
+insert into patient values('P07','Mitul Soni','27-AUG-96','Anand','M');
+insert into patient values('P08','Krunal Pandya','20-JAN-70','Rajkot','M');
+insert into patient values('P09','Rinkal Bhatt','14-APR-95','Navsari','M');
+insert into patient values('P10','Pratik Solanki','22-JUN-87','Surat','M');
+
+insert into patient2 values('&P_id', '&Pname', '&Bdate', '&Paddr', '&Gender');
+
+
+P01 Rupal Patel               12-SEP-98 Anand                               F
+P02 Kalpesh Shah              04-SEP-99 Baroda                              M
+P03 Kavita Joshi              23-OCT-87 Surat                               F
+P04 Sachin Pandya             04-FEB-89 Anand                               M
+P05 Brijisha Patel            15-MAR-95 Nadiad                              F
+P06 Mayank Shah               16-MAY-65 Baroda                              M
+P07 Mitual Soni               27-AUG-96 Anand                               M
+P08 Krunal Pandya             20-JAN-70 Rajkot                              M
+P09 Rinkal Bhatt              14-APR-95 Navsari                             M
+P10 Pratik Solanki            22-JUN-87 Surat                               M

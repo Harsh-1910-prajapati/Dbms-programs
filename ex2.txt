@@ -1,0 +1,42 @@
+create table lesson1
+(
+courseCode varchar2(10)primary key,
+LDate date,
+Time varchar2(10),
+Classroom varchar2(25),
+Teachercode varchar2(10)
+);
+
+insert into LESSON values('&courseCode',&Date,&Time,'&Classroom','&Teachercode*');
+
+insert into lesson1 values('01_TA','12/OCT/2021','10:00','12A','DID1');
+insert into  lesson1 values('02_XA','22/JAN/2022','17:00','NULL','DID2');
+insert into  lesson1 values('011_TO,'12/NOV/2021','null','11','DID3');
+insert into lesson1 values('07_XB','18/DEC/2021','15:00','2P','DID3');
+insert into lesson1 values('06_XB','12/NOV/2021','15:00','21A','DID4');
+insert into lesson1 values('20_7TT','12/NOV/2022','21:00','12B','NULL');
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+create table OFFERED_SERVICES 
+(
+CompanyID varchar2(10)primary key,
+ServiceID varchar2(10),
+Amount  number(10)
+);
+insert into OFFERED_SERVICES values('A1','S1',100); 
+insert into OFFERED_SERVICES values('A01','S2',200); 
+insert into OFFERED_SERVICES values('A2','S1',150); 
+insert into OFFERED_SERVICES values('A3','S3',150);
+-------------------------------------------------------------------------------------------------------------------------------------------------------
+create table USED_SERVICES 
+(
+CompanyID varchar2(10)primary key references OFFERED_SERVICES(CompanyID),
+ServiceID varchar2(10)references OFFERED_SERVICES(ServiceID),
+Ldate date 
+);
+insert into USED_SERVICES  values('A1','S1','01-NOV-2022'); 
+insert into USED_SERVICES  values('A01','S2','14-NOV-2022');
+insert into USED_SERVICES  values('A2','S1','14-NOV-2022'); 
+insert into USED_SERVICES  values('A3','S3','01-NOV-2022'); 
+insert into USED_SERVICES  values('A1','S3','01-NOV-2022'); 	
+insert into USED_SERVICES  values('C1','S2','NULL');

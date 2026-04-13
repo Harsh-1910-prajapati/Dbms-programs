@@ -1,0 +1,27 @@
+
+create table appoinment
+(
+A_id number(6)primary key,
+d_id varchar(3)references doctor2(d_id),
+P_id varchar(3)references patient2(p_id) ,
+T_id varchar(3)references treatment2(T_id),
+App_date date,
+Duration number(4),
+Status char(1)CHECK (Status IN ('C', 'W'))
+);
+
+
+insert into appoinment values(201801, 'D02', 'p01', 'T01', '01-DEC-18',20, 'C');
+insert into appoinment values(201802, 'D03', 'p02', 'T02', '12-OCT-18',30,'C');
+insert into appoinment values(201803, 'D04', 'p03', 'T03', '26-DEC-18',30, 'W');
+insert into appoinment values(201804, 'D08', 'p04', 'T04', '01-JUN-18',25, 'C');
+insert into appoinment values(201805, 'D01', 'p05', 'T05', '11-SEP-18',40, 'C');
+insert into appoinment values(281806, 'D05', 'p06', 'T06', '23-SEP-18',45, 'C');
+insert into appoinment values(201807, 'D04', 'p07', 'T07', '16-JAN-18',55, 'W');
+insert into appoinment values(201808, 'D07', 'p08', 'T08', '12-NOV-18',40, 'W');
+insert into appoinment values(201809, 'D06', 'p09', 'T09', '16-NOV-18',35, 'C');
+insert into appoinment values(201810, 'D04', 'p10', 'T03', 03-JUL-18',30, 'W');
+insert into appoinment values(201811, 'D01', 'p04', 'T05', '01-DEC-18',50, 'C');
+insert into appoinment values(201812, 'D07', 'p07', 'T08', '30-OCT-18',25, 'W');
+
+insert into appoinment values('&A_id', '&d_id', '&P_id', '&T_id', '&App_date', '&Duration', '&Status');

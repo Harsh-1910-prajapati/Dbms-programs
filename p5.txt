@@ -1,0 +1,23 @@
+CREATE TABLE patient2 
+(
+    p_id VARCHAR2(3) PRIMARY KEY CHECK (p_id LIKE '%p__'),
+    Pname VARCHAR2(25),
+    Bdate DATE check ('Bdate'<'sysdate'),
+    Paddr VARCHAR2(35),
+    gender CHAR(1) DEFAULT 'M' NOT NULL CHECK (gender IN ('M', 'F'))
+);
+
+                                                                                                                                                                 
+insert into patient2 values('p01', 'Rupal patel','12-SEP-98','Anand','F');
+insert into patient2 values('p02','Kalpesh Shah','04-SEP-99','Baroda','M');
+insert into patient2 values('p03','Kalpesh Shah','04-SEP-99','Surat','F');
+insert into patient2 values('p04','Sachin pandya','04-FEB-89','Anand','M');
+insert into patient2 values('p05','Brijisha Patel','15-MAR-95','Nadiad','F');
+insert into patient2 values('p06','Mayank Shah','16-MAY-65','Barada','M');
+insert into patient2 values('p07','Mitul Soni','27-AUG-96','Anand','M');
+insert into patient2 values('p08','Krunal Pandya','20-JAN-70','Rajkot','M');
+insert into patient2 values('p09','Rinkal Bhatt','14-APR-95','Navsari','M');
+insert into patient2 values('p10','Pratik Solanki','22-JUN-87','Surat','M');
+
+
+

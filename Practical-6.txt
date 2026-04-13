@@ -1,0 +1,19 @@
+create table treatment
+(
+ T_id varchar(3)primary key,
+ Tdetails varchar(50),
+ Charges  number(5)
+);
+
+
+insert into treatment values('T01', 'Retina','1200');
+insert into treatment values('T02','Root Canal','400');
+insert into treatment values('T03','Sleep Apnea','600');
+insert into treatment values('T04','Glaucoma','1500');
+insert into treatment values('T05','Tonsil','200');
+insert into treatment values('T06','Knee Replacement','500');
+insert into treatment values('T07','Ear ','400');
+insert into treatment values('T08', 'Spine','600');
+insert into treatment values('T09','Tooth Exraction','1000');
+
+insert into treatment values('&T_id','&Tdetails','&Charges');

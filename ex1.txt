@@ -1,0 +1,33 @@
+create table Student8
+(
+Student_id number(5) primary key,
+FristName varchar2(50),
+Lastname varchar2(50),
+Year number(1),
+GPA number(3,2)
+);
+
+insert into Student8 values(&Student_id ,'&FristName','&Lastname',&Year,&GPA);
+
+-------------------------------------------------------------------------------------------------------------------------------------------------
+
+create table couse2
+(
+corseID number(2)primary key,
+corseName varchar2(100),
+Department varchar2(50),
+Credits number(2)
+);
+
+insert into couse2 values(&corseID,'&corseName','&Department',&Credits);
+
+----------------------------------------------------------------------------------------------------------------------------------------------------
+
+create table enrollment2
+(
+enrollmentID number(2) primary key,
+student_id  number(5)references Student8,
+courseID number(2)references couse2,
+grade varchar2(2)
+);
+insert into enrollment2 values(&enrollmentID,&studentID,&courseID,'&grade');

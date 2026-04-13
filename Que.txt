@@ -1,0 +1,110 @@
+1.Display entire content of cust table.
+>select * from cust;
+
+2.Display customer first  name with their area.
+>select fname,area form cust;
+
+3.Display customer with their fname and last name whose cust_id a01 or a02.
+>select fname,lname, from cust where cust_id='a01' or cust_id='a02';
+
+4.Display all the records from table whose cust_id is a02 and area is Surat.
+>select * from cust where cust_id='a02' and area='Surat'; 
+
+5.Display customer ditails who does not have Phone number. 
+>select * from cust where phone_no is null;
+>
+6.Display entire content of movie table.
+>select * from movie2;  
+
+7.display all details of movie  whose price is gretes than 200.
+>select * from movie2 where price>200.
+
+8.display title and type of movie whose price is geater than 150 and less than 200.
+>select * from movie2 where price>150 and price<200; 
+
+9.display movie type is comdey or Action(using in and or oprateor).
+>select * from movie2 where type='Comdey' or type='Action';
+ 
+10.Display movie details movie type is Suspense and Price is Gretemth 180.
+>select * from movie2 where type='Suspense' and price>180;
+11.display title,star and price of comedy movie.
+>select * from movie2 where type='Comedy';  
+
+12.Display distinct movies type.
+> select distinct type from movie2;
+
+13. Display movies details in ascending order of movie title.
+>select * from movie2 order by title;
+
+14. Display movies details in descending order of movie title.
+>select * from movie2 order by price desc;
+
+15.Display movie details whose type is Romantic or Action and price less than 200.
+> select * from movie2 where type='Romatic' or type='Action' and price<200; 
+
+
+UPDATE TABLE  ROW:
+update emp set dept='BCA' where id=1;
+
+DELETE TABLE  RO:
+delete from  emp where id=1;
+
+-------------------------------------------------------------------------------------------------------------------------------------------------
+		ASSIGNMENT-3
+1.Display employee number and name from emp table.
+>select empno,ename from emp;
+
+2 Display job from emp table, removing duplicate values.
+>select diatinct job from emp; 
+
+3.Display employees of which are not in department 20.
+>select * from emp  where depton!=20; 
+
+4.Display employees, whose name begins with ‘J’.
+>select * from emp  where ename like 'J%';
+
+5.Display all employees who receive commission.
+>select * from emp  where comm is not null and comm>0;
+
+6.Display employees of department 10 and who hired after 1st Sep ’81.
+>select * from emp where  deptno=10 And hiredate>to_date('01-SEP-1981');
+
+7.Display employees who are not in department 20.
+(Use all the alternatives)
+>select * from  emp  where deptno !=20;
+>select * from  emp  where deptno not in (20);
+>select * from  emp  where not exists(select 1 from emp sub where sub.empon AND sub.deptno=20);
+ >select * from emp where deptno NOT IN (select deptno from emp where deptno=20);
+
+8.Display employee details like name, job and salary with user defined heading for all.
+>select ename AS "Employee Name",job AS "job title", sal AS "Salary" from emp;
+
+9.List employee name, salary, PF, HRA, DA & GROSS order the result in ascending
+order of salary.(PF = 10% salary, HRA=50%, DA=30%,GROSS=SAL+HRA+DA-PF)
+>SELECT 
+    employee_name,
+    salary,
+    salary * 0.10 AS PF,
+    salary * 0.50 AS HRA,
+    salary * 0.30 AS DA,
+    (salary + salary * 0.50 + salary * 0.30 - salary * 0.10) AS GROSS
+FROM 
+    employees
+ORDER BY 
+    salary ASC;
+
+10.Display names of all the employees along with their annual salary.
+>SELECT  ename AS" Empoyee Name" salary * 12 AS annual_salary FROM 
+    employees;
+11.Display employees, whose name begins with ‘J’
+>SELECT * FROM emp WHERE  ename LIKE 'J%';
+ 
+12.Display all employees whose name begins with ‘J’ and has ‘N’ as the 3
+rd character.
+>SELECT * FROM emp WHERE ename LIKE 'J_N%';
+
+13.Display emp details whose job is Clerk, Salesman or Analyst.
+>SELECT *FROM emp WHERE job IN ('Clerk', 'Salesman', 'Analyst');
+
+14.
+
